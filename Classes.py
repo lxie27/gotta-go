@@ -17,8 +17,8 @@ class drop:
         self.deployed = False
         self.locked = True
         self.in_use = False
-        self.posn.update = 0
-        self.posn['lng'] = 0
+        self.posn.update(lat=0)
+        self.posn.update(lng=0)
 
     def lock(self):
         self.locked = True
@@ -34,8 +34,8 @@ class drop:
 
     def recover(self):
         self.deployed = False
-        self.posn['lat']
-        self.posn['lng']
+        self.posn.update(lat=0)
+        self.posn.update(lng=0)
 
     def deploy(self, posn):
         self.deployed = True
@@ -51,12 +51,12 @@ class drop:
 #       TODO not sure how posns are represented
 class transporter:
     slots = []
-    posn = {'lat': lat, 'lng': lng}
+    posn = {}
 
     def __init__(self, node1, node2):
         self.slots = [node1, node2]
-        self.posn['lat'] = posn['lat']
-        self.posn['lng'] = posn['lng']
+        self.posn.update(lat=0)
+        self.posn.update(lng=0)
 
     def addDrop(self, node):
         self.slots.append(node)
@@ -78,16 +78,14 @@ class transporter:
 # Networks have:
 # couriers - a dictionary (hashtable) initialized to no nodes
 class network:
-    couriers = {}
+    couriers = []
     size = 0
 
     def __init__(self):
         self.size = 0
 
     def addNode(self, trnsp): 
-        self.couriers.add(self.size + 1, trnsp)
-        for node in trnsp:
-            self.courses.nodes.add(node)
+        self.couriers.append(trnsp)
         self.size += 1
 
     def getNode(self, key):
@@ -98,7 +96,7 @@ class network:
 
         for transp in self.couriers:
             if transp.slots < 2:
-                avail.add(transp)
+                avail.append(transp)
         
         posns = []
         for i in irange(0, len(avail)):

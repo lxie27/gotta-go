@@ -2,8 +2,8 @@ from Classes import network
 from Classes import transporter
 from Classes import drop
 from find_best import find_best
-import googlemaps
 from key import key
+from googlemaps import *
 
 node1 = drop()
 node2 = drop()
@@ -23,9 +23,8 @@ user = Client(key)
 
 #simulation loop
 
-user.setUp()
 user_posn = []
-user_posn['lat'] = user.geolocate()['location'][0]['lat']
-user_posn['lng'] = user.geolocate()['location'][0]['lng']
+user_posn['lat'] = user.geolocate(key)['location'][0]['lat']
+user_posn['lng'] = user.geolocate(key)['location'][0]['lng']
 
 print(user_posn['lat'])
