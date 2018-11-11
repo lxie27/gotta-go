@@ -29,25 +29,37 @@ user_posn['lng'] = user.geolocate(key)['location'][0]['lng']
 
 print(user_posn['lat'])
 
+net_posns = []
+for n in range(net.couriers):
+	truck = Client(key)
+	transp_posn = []
+	transp_posn = truck.geolocate(key)['location'][0]['lat']
+	transp_posn = truck.geolocate(key)['location'][0]['lng']
+	n.updatePosn(transp_posn)
+	net_posns.append(transp_posn)
+
 # gets the distance of all vehicles from the user
 vehicles_dist = []
 vehicles_dist = user.distance_matrix(user_posn, net_posns)
 
-count = 1
+count = 0
 shortest = int(vehicles_dist[0]['rows']['elements']['distance']['text'].split(' ')[0])
 
-
+# determines which vehicle is closest to the user
 closest = 0
 for v in range(len(vehicles_dist)):
+	count = count + 1
 	if int(v[0]['rows']['elements']['distance']['text'].split(' ')[0]) < shortest:
 		closest = count
-		shortest = v
-		count = count + 1
+		shortest = int(v[0]['rows']['element']['distance']['text'].split(' ')[0])
+
 
 # get the directions from the selected vehicle to the user
 distance = shortest
-while(duration > 30):
-	userDestination = user.directions(user_posn, net_posns[closest])[routes]
-	toUser = user.directions(net_posns[closest], user_posn)[routes]
-	duration = userDestination[routes][legs][duration][value]
+while(distance > 100):
+	userInstruction = user.directions(user_posn, net_posns['closest'])['routes']
+	toUser = user.directions(net_posns['closest'], user_posn)['routes']
+	distance = userDestination['routes']['legs']['duration']['value']
+
+
 
