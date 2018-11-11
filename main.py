@@ -27,7 +27,7 @@ user_posn = []
 user_posn['lat'] = user.geolocate(key)['location'][0]['lat']
 user_posn['lng'] = user.geolocate(key)['location'][0]['lng']
 
-print(user_posn['lat'])
+
 
 net_posns = []
 for n in range(net.couriers):
@@ -57,9 +57,11 @@ for v in range(len(vehicles_dist)):
 # get the directions from the selected vehicle to the user
 distance = shortest
 while(distance > 100):
-	userInstruction = user.directions(user_posn, net_posns['closest'])['routes']
-	toUser = user.directions(net_posns['closest'], user_posn)['routes']
+	userInstruction = user.directions(user_posn, net_posns[closest])['routes']
+	toUser = user.directions(net_posns[closest], user_posn)['routes']
 	distance = userDestination['routes']['legs']['duration']['value']
 
 
-
+drop1 = net_posns[closest].slots[0] 
+net_posns[closest].dropDrop(drop1)
+userInstruction = user.directions(user_posn, drop1.posn)
